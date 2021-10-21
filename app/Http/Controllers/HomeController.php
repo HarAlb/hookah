@@ -73,7 +73,7 @@ class HomeController extends Controller
             $table->update([
                 'closed' => true
             ]);
-            Order::where('table_id', $table->id)->delete();
+            Order::where('table_id', $table->id)->delete(); 
         }
         return redirect('/');
     }
