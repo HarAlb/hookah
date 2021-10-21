@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Category\CreateUpdateCategoryRequest;
 use App\Models\Category;
+use App\Models\CategoryProduct;
 use Illuminate\Support\Str;
 use PHPUnit\Util\Json;
 
@@ -100,7 +101,7 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $category = Category::where('id', $id)->with('translations')->first();
+        $category = Category::where('id', $id)->first();
         abort_if(!$category, 404);
         return view($this->viewPath . '/create-update')->with([
             'category' => $category,
@@ -149,7 +150,18 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         $deleted = Category::find($id);
-        $deleted->removeTranslates();
+        if(CategoryProduct::where('category_id', $id)->get()->first()){
+            $hasCategory = Category::where('slug', 'uncategorized')->get()->first();
+            if(!$hasCategory){
+                $hasCategory = Category::create([
+                    'name' => 'Uncategorized',
+                    'slug' => 'uncategorized'
+                ]);
+            }
+            CategoryProduct::where('category_id', $id)->update([
+                'category_id' => $hasCategory->id
+            ]);
+        }   
         $deleted->delete();
         return [
             'message' => $deleted ? 'Greate Job' : 'There is a server error try letter',
