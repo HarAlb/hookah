@@ -9,7 +9,7 @@
         <div class="py-5">
             <div class="rounded border p-10">
                 <form action="{{ !empty($user) ? route('users.update', ['user' => $user->id]) : route('users.store') }}" method="POST">
-                    @csrf
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     @if(!empty($user))
                         @method('PUT')
                     @endif

@@ -8,7 +8,7 @@
         </h1>
         <div class="py-5">
             <form action="{{ $create ? route('categories.store') : route('categories.update', ['category' => $category->id]) }}" method="POST">
-                @csrf
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 @if(!$create)
                     @method('PUT')
                 @endif

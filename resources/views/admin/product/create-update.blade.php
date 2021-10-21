@@ -11,7 +11,7 @@
                 action="{{ $create ? route('products.store') : route('products.update', ['product' => $product->id]) }}"
                 method="POST"
                 enctype="multipart/form-data">
-                @csrf
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 @if(!$create)
                     @method('PUT')
                     <input type="hidden" name="id" value="{{ $product->id }}"/>

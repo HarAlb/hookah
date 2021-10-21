@@ -9,7 +9,7 @@
                 </a>
             </div>
             <form action="" class="material py-2" method="POST" autocomplete="off">
-                @csrf
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <div class="group">
                     <input id="email" name="email" type="email" required value="{{old('email' ,'')}}" class="@error('email') is-invalid @enderror">
                     <span class="bar"></span>
