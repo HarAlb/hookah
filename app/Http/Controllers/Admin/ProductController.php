@@ -63,7 +63,7 @@ class ProductController extends Controller
         }else{
             $products->orderByDesc($orderBy);
         }
-        $listProducts = $products->with('categories','currency')->paginate(50);
+        $listProducts = $products->with('categories','currency')->paginate(25);
         
         return view($this->viewPath . '/index')->with(compact('orderList','listProducts','categories'));
     }
