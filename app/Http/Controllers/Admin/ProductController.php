@@ -113,7 +113,9 @@ class ProductController extends Controller
             ]); 
         }
         $fileName = $slug. '.' . $req->thumbnail->extension();
-        $img = Image::make($req->thumbnail)->resize(320, 240);
+        $img = Image::make($req->thumbnail)->resize(320, 240, function ($constraint) {
+		    $constraint->aspectRatio();
+		});
         $img->save(public_path('uploads/products/' . $fileName));
         $product = Product::create(array_merge($req->validated(), ['thumbnail' => $fileName ,'user_id' => auth()->user()->id,'slug' => $slug]));
         if($product){
