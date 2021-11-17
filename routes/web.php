@@ -47,7 +47,7 @@ Route::get('/test-command', function (){
     Artisan::call('migrate:fresh --seed');
 });
 
-Route::prefix('')->middleware(['auth','is_not_admin'])->group(function () {
+Route::prefix('')->middleware(['is_not_admin'])->group(function () {
     Route::get('', [HomeController::class,'index']);
     Route::post('check-pin', [HomeController::class,'checkPin'])->name('check.pin');
     Route::post('remove-pin', [HomeController::class,'removePin'])->name('remove.pin');

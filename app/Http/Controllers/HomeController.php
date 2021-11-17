@@ -8,6 +8,8 @@ use App\Models\Category;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Table;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -20,7 +22,8 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except('products');
+        $this->middleware('exists_qr_or_auth')->only('products');
     }
 
     /**
@@ -56,7 +59,15 @@ class HomeController extends Controller
     public function products(ProductsRequest $req)
     {
         // session(['pin-exists' => false]);
-        $table = Table::where('path', $req->path)->limit(1)->get(['id', 'closed'])->first();
+        if($req->qr_code){
+            $table = Table::whereRaw('MD5(path) = ?', [$req->qr_code])->get()->first();
+            $user = User::whereNull('is_admin')->limit(1)->get(['id'])->first();
+            if($user){
+                Auth::loginUsingId($user->id);
+            }
+        }else{
+            $table = Table::where('path', $req->path)->limit(1)->get(['id', 'closed'])->first();
+        }
         if($table->closed){
             $table->update([
                 'closed' => 0

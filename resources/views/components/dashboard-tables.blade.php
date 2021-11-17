@@ -14,7 +14,7 @@
                     <div class="p-2 col-12 col-sm-3 col-xs-6 order-table" data-path="{{ route('products', ['path' => $table->path]) }}">
                         <div class="position-relative py-12 rounded text-center bg-light cursor-pointer">
                             <div class="d-none">
-                                {!! QrCode::size(150)->generate(route('products', ['path' => $table->path,'qr-code' => md5($table->path)])); !!}
+                                {!! QrCode::size(150)->generate(route('products', ['path' => $table->path,'qr_code' => md5($table->path)])); !!}
                             </div>
                             <span>{{ $table->index }}</span>
                         </div>
