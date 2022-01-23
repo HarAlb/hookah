@@ -113,10 +113,12 @@ class ProductController extends Controller
             ]); 
         }
         $fileName = $slug. '.' . $req->thumbnail->extension();
-        $img = Image::make($req->thumbnail)->resize(320, 240, function ($constraint) {
-		    $constraint->aspectRatio();
-		});
-        $img->save(public_path('uploads/products/' . $fileName));
+        // $img = Image::make($req->thumbnail)->resize(320, 240, function ($constraint) {
+		//     $constraint->aspectRatio();
+		// });
+        // $img->save(public_path('uploads/products/' . $fileName));
+        $req->thumbnail->move(public_path('uploads/products'), $fileName);
+        // public_path('uploads/products/' . $fileName);
         $product = Product::create(array_merge($req->validated(), ['thumbnail' => $fileName ,'user_id' => auth()->user()->id,'slug' => $slug]));
         if($product){
             CategoryProduct::create([
@@ -129,6 +131,7 @@ class ProductController extends Controller
                     'success' => true,
                 ]]);
         }
+
         return redirect()->back()->with([
             'show-message' => [
                 'message' => 'There is a server error try letter',

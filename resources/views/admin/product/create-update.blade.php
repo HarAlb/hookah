@@ -31,23 +31,23 @@
                         </span>
                     @enderror
                 </div>
-                <div class="my-5 d-flex flex-column flex-sm-row">
-                    <div class="col px-sm-1">
-                        <label for="category" class="required form-label">Category</label>
-                        <select id="category" name="category_id" class="form-select @error('category_id') is-invalid  @enderror" data-control="select2"
-                            data-placeholder="Select an option">
-                            <option></option>
-                            @foreach ($categories as $category)
-                            <option value="{{ $category->id }}" {{ $create ? ((old('category_id') == $category->id) ? 'selected' : '') : ($product->category->first()->id == $category->id ? 'selected' : '' )  }}>
-                                {{ $category->name }}</option>
-                            @endforeach
-                        </select>
+                <div class="col px-sm-1 tagify-block">
+                    <label for="category" class="required form-label">Category</label>
+                    <input type="text" class="d-none" value="" name="category_id">
+                    <div class="bg-light h-50px rounded d-flex justify-content-start tagify-list"></div>
+                    <div class="d-flex justify-content-start mt-2 tagify-all flex-wrap">
+                        @foreach ($categories as $category)
+                        <span class="px-2 py-4 bg-info text-white cursor-pointer rounded tagify" value="{{ $category->id }}" {{ $create ? ((old('category_id') == $category->id) ? 'selected' : '') : ($product->category->first()->id == $category->id ? 'selected' : '' )  }}>
+                            {{ $category->name }}</span>
+                        @endforeach
                         @error('category_id')
                             <span class="invalid-feedback">
                                 {{ $message }}
                             </span>
                         @enderror
                     </div>
+                </div>
+                <div class="my-5 d-flex flex-column flex-sm-row">
                     <div class="col px-sm-1 my-2 my-sm-0">
                         <label class="form-label required">Price</label>
                         <div class="d-flex align-items-start">

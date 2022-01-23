@@ -279,4 +279,21 @@ $(function () {
           })
         }
     }
+
+    if($('.tagify[selected]').length){
+        $('.tagify-list').append('<span class="bg-success rounded my-2 py-2 px-4 ms-5" value="' + $('.tagify[selected]').eq(0).attr('value') + '">' + $('.tagify[selected]').eq(0).text() + '</span>');
+        $('.tagify[selected]').eq(0).remove();
+    }
+
+    $('.tagify').on('click', function (){
+        let parent = $(this).parents('.tagify-block');
+        let list = $('.tagify-list', parent);
+        if($('span', list).length){
+            $('.tagify-all').append('<span class="px-2 py-4 bg-info text-white cursor-pointer rounded tagify" value="' + $('span:eq(0)', list).attr('value') + '">' + $('span:eq(0)', list).text() + '</span>');
+            $(list).html('');
+        }
+        $('input', parent).attr('value', $(this).attr('value'));
+        $(list).append('<span class="bg-success rounded my-2 py-2 px-4 ms-5" value="' + $(this).attr('value') + '">' + $(this).text() + '</span>');
+        $(this).remove();
+    });
 })
