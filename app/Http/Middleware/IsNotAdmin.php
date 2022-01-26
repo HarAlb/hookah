@@ -16,7 +16,7 @@ class IsNotAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if(auth()->user()->is_admin){
+        if(auth()->user() && auth()->user()->is_admin){
             return redirect(route('admin.dashboard'));
         }
         return $next($request);
