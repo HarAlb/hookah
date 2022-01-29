@@ -193,7 +193,7 @@ $(function () {
                 $('#orders-modal').attr('data-table-id', +$(this).parents('div[data-id]').attr('data-id'))
                 orders.map(function (order,i){
                     for(let k = 0; k < order.count; k++){
-                        price += order.product.price;
+                        price += (+order.product.price);
                         str += '<div class="row row-cols-3 align-items-center" data-order-id="' + order.orderId + '" data-product-id="' + order.product.id + '" data-product-price="' + order.product.price + '">';
                         str += '<div><img src="' + location.origin + '/uploads/products/' + order.product.thumbnail + '" class="mw-100"/></div>';
                         str += '<div class="text-center"><span class="text-gray-500 order-price">' + order.product.price + ' <span class="ba ' + order.product.currency_short.icon + '"></span></span></div>';
