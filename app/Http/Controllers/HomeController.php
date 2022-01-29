@@ -35,9 +35,13 @@ class HomeController extends Controller
     {
         $user = auth()->user();
         $tables = [];
-        if(session('pin-exists')){
-            $tables = Table::where('closed',1)->orderBy('index')->get();
+        if(session('log-with-qr')){
+            session('pin-exists', false);
         }
+        if(session('pin-exists')){
+            $tables = Table::orderBy('index')->get();
+        }
+
         return view('dashboard', compact('tables', 'user'));
     }
 
@@ -62,6 +66,7 @@ class HomeController extends Controller
         if($req->qr_code){
             $table = Table::whereRaw('MD5(path) = ?', [$req->qr_code])->get()->first();
             $user = User::whereNull('is_admin')->limit(1)->get(['id'])->first();
+            session('log-with-qr', true);
             if($user){
                 Auth::loginUsingId($user->id);
             }

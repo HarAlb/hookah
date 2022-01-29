@@ -249,6 +249,7 @@ $(function () {
             let parent = $(this).parents('#orders-modal');
             bill({table_id: parent.attr('data-table-id')});
             $('.modal-body',parent).html('Order doesnt exists');
+            location.reload();
         });
 
         $(document).on('click', '.remove-orders', function (){

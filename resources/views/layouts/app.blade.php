@@ -31,9 +31,18 @@
                     <a class="btn btn-danger cancel-table-closing" href="{{ route('open-table', ['path' => request('path')]) }}">
                         Back
                     </a>
-                    <button class="btn btn-transparent products-basket position-relative" data-bs-toggle="modal" data-bs-target="#products-basket">
-                        <i class="bi bi-basket fs-1"></i>
-                    </button>
+                @endif
+                @if(auth()->user())
+                <div>
+                    @if(preg_match('@products@', url()->current()))
+                        <button class="btn btn-transparent products-basket position-relative" data-bs-toggle="modal" data-bs-target="#products-basket">
+                            <i class="bi bi-basket fs-1"></i>
+                        </button>
+                    @endif
+                    <a class="btn" href="{{ route('logout') }}">
+                        Logout
+                    </a>
+                </div>
                 @endif
             </div>
         </nav>
