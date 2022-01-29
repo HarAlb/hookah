@@ -194,7 +194,7 @@ $(function () {
                 orders.map(function (order,i){
                     for(let k = 0; k < order.count; k++){
                         price += (+order.product.price);
-                        str += '<div class="row row-cols-3 align-items-center" data-order-id="' + order.orderId + '" data-product-id="' + order.product.id + '" data-product-price="' + order.product.price + '">';
+                        str += '<div class="row row-cols-3 align-items-center py-5" data-order-id="' + order.orderId + '" data-product-id="' + order.product.id + '" data-product-price="' + order.product.price + '">';
                         str += '<div><img src="' + location.origin + '/uploads/products/' + order.product.thumbnail + '" class="mw-100"/></div>';
                         str += '<div class="text-center"><span class="text-gray-500 order-price">' + order.product.price + ' <span class="ba ' + order.product.currency_short.icon + '"></span></span></div>';
                         str += '<div class="text-center"><button class="btn btn-sm bill-one">Bill</button><button class="btn btn-success btn-sm bill-row">Cancel</button></div>'
