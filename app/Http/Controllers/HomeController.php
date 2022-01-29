@@ -79,18 +79,13 @@ class HomeController extends Controller
             ]);
         }
         $categories = Category::with('products')->get(['id', 'name', 'slug']);
-        return view('products', compact('categories', 'table'));
+        $orders = Order::where('table_id', $table->id)->get(['id', 'count']);
+        
+        return view('products', compact('categories', 'table', 'orders'));
     }
 
     public function cancelTableClosing(ProductsRequest $req)
     {
-        $table = Table::where('path', $req->path)->limit(1)->get();
-        if($table = $table->first()){
-            $table->update([
-                'closed' => true
-            ]);
-            Order::where('table_id', $table->id)->delete(); 
-        }
         return redirect('/');
     }
 

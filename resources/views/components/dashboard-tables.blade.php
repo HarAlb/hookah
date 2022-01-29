@@ -11,8 +11,8 @@
             <div class="card-body">
                 <div class="row tables-content flex-sm-row flex-xs-row flex-column">
                     @foreach($tables as $table)
-                    <div class="p-2 col-12 col-sm-3 col-xs-6 order-table" data-path="{{ route('products', ['path' => $table->path]) }}">
-                        <div class="position-relative py-12 rounded text-center bg-light cursor-pointer">
+                    <div class="p-2 col-12 col-sm-3 col-xs-6 order-table {{ $table->closed ? '' : 'closed' }}" data-path="{{ route('products', ['path' => $table->path]) }}">
+                        <div class="position-relative py-12 rounded text-center bg-{{ $table->closed ? 'light' : 'success' }} cursor-pointer">
                             <div class="d-none">
                                 {!! QrCode::size(150)->generate(route('products', ['path' => $table->path,'qr_code' => md5($table->path)])); !!}
                             </div>

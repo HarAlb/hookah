@@ -10,8 +10,14 @@ $.ajaxSetup({
   }
 });
 
+
 let basket = [];
 let orders = [];
+
+if($('.orders[data-orders]').length){
+  orders = JSON.parse($('.orders[data-orders]').attr('data-orders'));
+}
+console.log(orders);
 
 if(location.pathname === "/"){
   sessionStorage.clear();
@@ -77,6 +83,10 @@ $('#pin-modal').on('hidden.bs.modal', function (e,res) {
 });
 
 $(document).on('click', '.order-table', function (){
+    if($(this).hasClass('closed')){
+      location.href = $(this).attr('data-path');
+      return;
+    }
     $('.modal-body').html('<div class="text-center"></div>');
     $('.modal-body div.text-center').append($('.d-none svg', this).clone());
     $('#table-close a').attr('href', $(this).attr('data-path'));

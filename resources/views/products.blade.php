@@ -41,6 +41,7 @@
             </div>
         </div>
     </div>
+    <div class="orders" data-orders="{{ json_encode($orders->toArray()) }}"></div>
     @include('components.basket-modal')
     @include('components.products-slider')
 @endsection
