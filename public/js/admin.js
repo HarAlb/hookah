@@ -181,7 +181,6 @@ $(function () {
         let products = [];
         $('#tables-body div[data-products]').map(function (item,value){
             if($(value).attr('data-products') != 0){
-                console.log(JSON.parse($(value).attr('data-products')));
                 products[$(value).attr('data-id')] = JSON.parse($(value).attr('data-products'));
             }
         });
@@ -189,13 +188,15 @@ $(function () {
             $('#orders-modal').modal('show');
             let str = '';
             let orders = products[+$(this).parents('div[data-id]').attr('data-id')];
+            let price = 0;
             if(orders){
                 $('#orders-modal').attr('data-table-id', +$(this).parents('div[data-id]').attr('data-id'))
                 orders.map(function (order,i){
                     for(let k = 0; k < order.count; k++){
+                        price += order.product.price;
                         str += '<div class="row row-cols-3 align-items-center" data-order-id="' + order.orderId + '" data-product-id="' + order.product.id + '" data-product-price="' + order.product.price + '">';
                         str += '<div><img src="' + location.origin + '/uploads/products/' + order.product.thumbnail + '" class="mw-100"/></div>';
-                        str += '<div class="text-center"><span class="text-gray-500 order-price">' + (order.count * order.product.price) + ' <span class="ba ' + order.product.currency_short.icon + '"></span></span></div>';
+                        str += '<div class="text-center"><span class="text-gray-500 order-price">' + order.product.price + ' <span class="ba ' + order.product.currency_short.icon + '"></span></span></div>';
                         str += '<div class="text-center"><button class="btn btn-sm bill-one">Bill</button><button class="btn btn-success btn-sm bill-row">Cancel</button></div>'
                         str += '</div>';
                     }
@@ -203,6 +204,10 @@ $(function () {
             }
             if(str == ''){
                 str = 'Order doesnt exists';
+            }
+            $('#orders-modal .modal-footer .btn-bill-order').html($('#orders-modal .modal-footer .btn-bill-order').html().replace(/\s*\([^\)]*\)/, ''));
+            if ( price ) {
+                $('#orders-modal .modal-footer .btn-bill-order').html($('#orders-modal .modal-footer .btn-bill-order').html() + ' ( ' + price + '<span class="ba bi-currency-euro"></span>' + ' )');
             }
             $('#orders-modal').attr('data-table-id', $(this).parent('div').attr('data-id'));
             $('#orders-modal .modal-body').html(str);
@@ -221,6 +226,11 @@ $(function () {
                   success: function (res){
                     if(res.success){
                         parent.remove();
+                        let allPrice = $('#orders-modal .modal-footer .btn-bill-order').html().match(/\([\r\t\n\s]*(\d*)/);
+                        if(allPrice){
+                            let newPrice = $('#orders-modal .modal-footer .btn-bill-order').html().replace(allPrice[1],(+allPrice[1]) - parent.attr('data-product-price'));
+                            $('#orders-modal .modal-footer .btn-bill-order').html(newPrice);
+                        }
                     }
                   }  
             })

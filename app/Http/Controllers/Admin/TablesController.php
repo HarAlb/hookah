@@ -162,13 +162,11 @@ class TablesController extends Controller
             Order::where([
                 ['table_id', '=', $tableId],
             ])->delete();
-            if($req->close){
-                Table::where('id', $tableId)->update([
-                    'closed' => true,
-                    'path' => Str::random(80)
-                ]);
-                return response()->json(['success' => true, 'closeTable' => true]);
-            }
+            Table::where('id', $tableId)->update([
+                'closed' => true,
+                'path' => Str::random(80)
+            ]);
+            
             return response()->json(['success' => true]);
         }
         return response()->json(['success' => false]);

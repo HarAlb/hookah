@@ -50,7 +50,7 @@
                 <!--end::Close-->
             </div>
 
-            <div class="modal-body">
+            <div class="modal-body mh-300px scroll-y">
                 <div class="row">
                     
                 </div>
