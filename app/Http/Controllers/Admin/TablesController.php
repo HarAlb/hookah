@@ -167,7 +167,7 @@ class TablesController extends Controller
                 'path' => Str::random(80)
             ]);
             
-            return response()->json(['success' => true]);
+            return response()->json(['success' => true, 'closeTable' => true]);
         }
         return response()->json(['success' => false]);
     }
