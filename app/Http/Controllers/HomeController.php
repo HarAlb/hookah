@@ -68,6 +68,11 @@ class HomeController extends Controller
         }else{
             $table = Table::where('path', $req->path)->limit(1)->get(['id', 'closed'])->first();
         }
+        if($table->closed){
+            $table->update([
+                'closed' => 0
+            ]);
+        }
         $categories = Category::with('products')->get(['id', 'name', 'slug']);
         return view('products', compact('categories', 'table'));
     }
