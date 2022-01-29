@@ -17,7 +17,7 @@ let orders = [];
 if($('.orders[data-orders]').length){
   orders = JSON.parse($('.orders[data-orders]').attr('data-orders'));
 }
-console.log(orders);
+
 
 if(location.pathname === "/"){
   sessionStorage.clear();
@@ -30,29 +30,30 @@ if(sessionStorage.getItem('basket')){
 if(sessionStorage.getItem('orders')){
   orders = JSON.parse(sessionStorage.getItem('orders'));
 }
-
 if(orders.length){
-  $.ajax({
-    url: location.origin + '/orders',
-    data: {
-      table_id: $('div[data-table-id]').attr('data-table-id')
-    },
-    success: function (res){
-      if(res.success){
-        console.log(orders);
-        orders = res.orders.map(function (item,index){
-          return {id:item.product_id,count:item.count};
-        });  
-        console.log(orders);
-        sessionStorage.setItem('orders', JSON.stringify(orders));
-      }else{
+  if($('div[data-table-id]').length){
+    $.ajax({
+      url: location.origin + '/orders',
+      data: {
+        table_id: $('div[data-table-id]').attr('data-table-id')
+      },
+      success: function (res){
+        if(res.success){
+          console.log(orders);
+          orders = res.orders.map(function (item,index){
+            return {id:item.product_id,count:item.count};
+          });  
+          console.log(orders);
+          sessionStorage.setItem('orders', JSON.stringify(orders));
+        }else{
+          location.href = '/';
+        }
+      },
+      error: function (err){
         location.href = '/';
       }
-    },
-    error: function (err){
-      location.href = '/';
-    }
-  });
+    });
+  }
 }
 
 // basket.map(function (item){
