@@ -10,7 +10,7 @@
                             <ul class="nav flex-sm-center bg-light overflow-auto p-2 mb-2 flex-stack flex-column flex-md-row" id="nav-tab" role="tablist">
                                 @foreach ($categories as $k => $category)
                                     <li class="nav-item my-2 my-md-0 mx-1">
-                                        <a class="nav-link btn btn-{{ $k ? 'white' : 'success' }} text-grey btn-active-color-gray-700 py-2 px-4 fs-6 fw-bold" data-bs-toggle="tab" href="#{{ $category->slug }}">{{ $category->name }}</a>
+                                        <a class="nav-link btn btn-white btn-active-success {{ $k ? '' : 'active' }} text-grey btn-active-color-gray-700 py-2 px-4 fs-6 fw-bold" data-bs-toggle="tab" href="#{{ $category->slug }}">{{ $category->name }}</a>
                                     </li>
                                 @endforeach
                             </ul>

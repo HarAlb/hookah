@@ -210,7 +210,6 @@ function generateOrdersContent()
   orders.map(function (item){
     for(let i = 0; i < item.count; i++){
       let product = $('.product[data-id="' + item.id + '"]');
-      console.log(product);
       str.orders += '<div class="d-flex flex-column flex-sm-row text-center align-items-sm-center border rounded my-1">';
       str.orders += '<div class="col"><img src="' + $('img', product).attr('src') + '" alt="" class="mw-100 mh-sm-90px"></div>';
       str.orders += '<div class="col-sm-7"><h3>' + $('.product-title a', product).text() + '</h3></div>';
@@ -326,7 +325,13 @@ function order()
         $('.products-basket .bi-check-circle-fill').remove();
         sessionStorage.setItem('orders', JSON.stringify(orders));
         sessionStorage.setItem('basket', JSON.stringify(basket));
-        generateOrdersContent();
+        Swal.fire({
+          title: 'Thanks for order',
+        }).then(function (res){
+            $('#products-basket').modal('hide');
+            generateOrdersContent()
+        })
+        // ;
       }else{
         $.ajax({
           url: location.origin + '/remove-pin',

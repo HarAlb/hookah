@@ -244,22 +244,26 @@ $(function () {
         });
 
         $(document).on('click', '#orders-modal .btn-bill-order', function (){
-            $(this).attr('disabled', 'disabled');
-            let parent = $(this).parents('#orders-modal');
-            bill({table_id: parent.attr('data-table-id')}, function (res){
-                let price = 0;
-                $('#orders-modal div[data-product-price]').map(function (index, item){
-                    price += +$(item).attr('data-product-price');
-                }); 
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Great',
-                    html: '<span class="price d-inline text-center text-gray-500 fs-2 d-sm-block">Price ' + price + '<span class="ba bi-currency-euro"></span></span>',
-                    content: $('#orders-modal')
-                }).then((res) => {
-                    location.reload();
-                })
-            });
+            // $(this).attr('disabled', 'disabled');
+            let price = 0;
+            $('#orders-modal div[data-product-price]').map(function (index, item){
+                price += +$(item).attr('data-product-price');
+            }); 
+            Swal.fire({
+                title: 'Price',
+                html: '<span class="price d-inline text-center text-gray-500 fs-2 d-sm-block">' + price + '<span class="ba bi-currency-euro"></span></span>',
+                content: $('#orders-modal'),
+                showCancelButton: true,
+                cancelButtonText: 'Back',
+                confirmButtonText: 'Bill',
+                cancelButtonColor: '#F1416C',
+                confirmButtonColor: '#0098DA'
+            }).then((res) => {
+                if(res.isConfirmed){
+                    let parent = $(this).parents('#orders-modal');
+                    bill({table_id: parent.attr('data-table-id')});
+                }
+            })
         });
 
         $(document).on('click', '.remove-orders', function (){
