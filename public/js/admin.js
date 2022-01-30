@@ -188,12 +188,10 @@ $(function () {
             $('#orders-modal').modal('show');
             let str = '';
             let orders = products[+$(this).parents('div[data-id]').attr('data-id')];
-            let price = 0;
             if(orders){
                 $('#orders-modal').attr('data-table-id', +$(this).parents('div[data-id]').attr('data-id'))
                 orders.map(function (order,i){
                     for(let k = 0; k < order.count; k++){
-                        price += (+order.product.price);
                         str += '<div class="row row-cols-3 align-items-center py-5" data-order-id="' + order.orderId + '" data-product-id="' + order.product.id + '" data-product-price="' + order.product.price + '">';
                         str += '<div><img src="' + location.origin + '/uploads/products/' + order.product.thumbnail + '" class="mw-100"/></div>';
                         str += '<div class="text-center"><span class="text-gray-500 order-price">' + order.product.price + ' <span class="ba ' + order.product.currency_short.icon + '"></span></span></div>';
@@ -204,10 +202,6 @@ $(function () {
             }
             if(str == ''){
                 str = 'Order doesnt exists';
-            }
-            $('#orders-modal .modal-footer .btn-bill-order').html($('#orders-modal .modal-footer .btn-bill-order').html().replace(/\s*\([^\)]*\)/, ''));
-            if ( price ) {
-                $('#orders-modal .modal-footer .btn-bill-order').html($('#orders-modal .modal-footer .btn-bill-order').html() + ' ( ' + price + '<span class="ba bi-currency-euro"></span>' + ' )');
             }
             $('#orders-modal').attr('data-table-id', $(this).parent('div').attr('data-id'));
             $('#orders-modal .modal-body').html(str);
@@ -226,11 +220,6 @@ $(function () {
                   success: function (res){
                     if(res.success){
                         parent.remove();
-                        let allPrice = $('#orders-modal .modal-footer .btn-bill-order').html().match(/\([\r\t\n\s]*(\d*)/);
-                        if(allPrice){
-                            let newPrice = $('#orders-modal .modal-footer .btn-bill-order').html().replace(allPrice[1],(+allPrice[1]) - parent.attr('data-product-price'));
-                            $('#orders-modal .modal-footer .btn-bill-order').html(newPrice);
-                        }
                     }
                   }  
             })
@@ -257,9 +246,20 @@ $(function () {
         $(document).on('click', '#orders-modal .btn-bill-order', function (){
             $(this).attr('disabled', 'disabled');
             let parent = $(this).parents('#orders-modal');
-            bill({table_id: parent.attr('data-table-id')});
-            $('.modal-body',parent).html('Order doesnt exists');
-            location.reload();
+            bill({table_id: parent.attr('data-table-id')}, function (res){
+                let price = 0;
+                $('#orders-modal div[data-product-price]').map(function (index, item){
+                    price += +$(item).attr('data-product-price');
+                }); 
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Great',
+                    html: '<span class="price d-inline text-center text-gray-500 fs-2 d-sm-block">Price ' + price + '<span class="ba bi-currency-euro"></span></span>',
+                    content: $('#orders-modal')
+                }).then((res) => {
+                    location.reload();
+                })
+            });
         });
 
         $(document).on('click', '.remove-orders', function (){
