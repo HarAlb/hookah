@@ -251,7 +251,7 @@ $(function () {
             }); 
             Swal.fire({
                 title: 'Price',
-                html: '<h2 class="price d-inline text-center text-gray-600 fs-3x d-sm-block">' + price + '<span class="ba bi-currency-euro"></span></h2>',
+                html: '<h2 class="price d-inline text-center text-primary fs-3x d-sm-block">' + price + '<span class="ba bi-currency-euro"></span></h2>',
                 content: $('#orders-modal'),
                 showCancelButton: true,
                 cancelButtonText: 'Back',
