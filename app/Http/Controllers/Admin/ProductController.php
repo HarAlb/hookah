@@ -178,7 +178,6 @@ class ProductController extends Controller
         /** @var ?Product */
         $product = Product::findOrFail($id);
         DB::beginTransaction();
-        
         try{
             if($product->title != $req->title){
                 $slug = Str::slug($req->title);
