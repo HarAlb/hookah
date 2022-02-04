@@ -26,7 +26,7 @@ class TablesController extends Controller
      */
     public function index()
     {
-        $tables = Table::with('orders.productShort.currencyShort')->orderBy('closed')->get();
+        $tables = Table::with('orders.productShort.currencyShort')->orderBy('closed', 'asc')->orderBy('id', 'asc')->get();
         $products = [];
         $tables->map(function ($v) use (&$products){
             if(!$v->orders->isEmpty()){ 
