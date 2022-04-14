@@ -33,7 +33,7 @@
                 </div>
                 <div class="col px-sm-1 tagify-block">
                     <label for="category" class="required form-label">Category</label>
-                    <input type="text" class="d-none" value="{{ $product->category->first()->id ?? '' }}" name="category_id">
+                    <input type="text" class="d-none" value="{{ $create ? '' : $product->category->first()->id }}" name="category_id">
                     <div class="bg-light h-50px rounded d-flex justify-content-start tagify-list"></div>
                     <div class="d-flex justify-content-start mt-2 tagify-all flex-wrap">
                         @foreach ($categories as $category)
